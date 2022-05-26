@@ -6,7 +6,7 @@ from pymongo import MongoClient
 
 def create_app():
     app = Flask(__name__)
-    client = MongoClient(os.environ.get("MONGODB_URI"))
+    client = MongoClient("mongodb+srv://sarahzy605:jz199165@microblog-app.xixib.mongodb.net/test")
     app.db = client.microblog
 
     @app.route("/", methods=["GET", "POST"])
@@ -14,7 +14,7 @@ def create_app():
         if request.method == "POST":
             entry_content = request.form.get("content")
             formatted_date = datetime.datetime.today().strftime("%Y-%m-%d")
-            app.db.entries.insert({"content": entry_content, "date": formatted_date})
+            app.db.entries.insert_one({"content": entry_content, "date": formatted_date})
         
         entries_with_date = [
             (
